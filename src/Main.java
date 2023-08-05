@@ -1,35 +1,21 @@
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Scanner;
 
 public class Main {
     private static Card[][] cards = new Card[4][4];
+    static ArrayList<String> arrayList = new ArrayList<>();
 
     public static void main(String[] args) throws Exception {
 
-        ArrayList<String> arrayList = new ArrayList<>();
-        arrayList.add("A");
-        arrayList.add("B");
-        arrayList.add("C");
-        arrayList.add("D");
-        arrayList.add("E");
-        arrayList.add("F");
-        arrayList.add("G");
-        arrayList.add("H");
-        arrayList.add("A");
-        arrayList.add("B");
-        arrayList.add("C");
-        arrayList.add("D");
-        arrayList.add("E");
-        arrayList.add("F");
-        arrayList.add("G");
-        arrayList.add("H");
+        Scanner scanner = new Scanner(System.in);
+        inSavedGame();
 
-        Collections.shuffle(arrayList);
         int x = 0;
 
         for (int t = 0; t < 4; t++) {
-            for(int y = 0 ; y<4; y++){
+            for (int y = 0; y < 4; y++) {
                 cards[t][y] = new Card(arrayList.get(x));
                 x++;
             }
@@ -37,6 +23,21 @@ public class Main {
 
         while (gameOver() == false) {
             gameBoard();
+
+            System.out.println("Quit: press 'q'");
+            String quit = scanner.nextLine();
+
+            if (quit.equals("q")) {
+                System.out.println("Do you save your game? (Y or N)");
+                String register = scanner.nextLine();
+                register = register.toLowerCase();
+                if (register.equals("y")) {
+                    SaveGame.saveGame(cards);
+                } else {
+                    break;
+                }
+            }
+
             guess();
         }
 
@@ -107,5 +108,38 @@ public class Main {
             }
         }
         return true;
+    }
+
+    public static void inSavedGame() {
+        File file = new File("save.bin");
+        if (file.exists()) {
+            System.out.println("You have a saved game. Do you want to contouine in ? (Y or N)");
+            String s = scanner.nextLine();
+            s = s.toLowerCase();
+
+            if (s.equals("y")) {
+                cards = SaveGame.takeTheRegister();
+                return;
+            }
+        }
+
+        arrayList.add("A");
+        arrayList.add("B");
+        arrayList.add("C");
+        arrayList.add("D");
+        arrayList.add("E");
+        arrayList.add("F");
+        arrayList.add("G");
+        arrayList.add("H");
+        arrayList.add("A");
+        arrayList.add("B");
+        arrayList.add("C");
+        arrayList.add("D");
+        arrayList.add("E");
+        arrayList.add("F");
+        arrayList.add("G");
+        arrayList.add("H");
+        Collections.shuffle(arrayList);
+
     }
 }

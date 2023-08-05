@@ -1,4 +1,6 @@
-public class Card {
+import java.io.Serializable;
+
+public class Card implements Serializable{
 
     private CharSequence value;
     private boolean guess = false;
